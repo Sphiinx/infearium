@@ -10,6 +10,7 @@ public class TerrainManager {
 
     public static Texture empty;
     public static Texture dirt;
+    public static Texture grass;
     public static Texture stone;
 
     public static void create() {
@@ -18,6 +19,9 @@ public class TerrainManager {
 
         dirt = new Texture(Gdx.files.internal("terrain/dirt16x16.png"));
         dirt.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        grass = new Texture(Gdx.files.internal("terrain/grass16x16.png"));
+        grass.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
         stone = new Texture(Gdx.files.internal("terrain/stone16x16.png"));
         stone.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);

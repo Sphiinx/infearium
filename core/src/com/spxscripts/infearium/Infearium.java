@@ -27,6 +27,7 @@ public class Infearium extends ApplicationAdapter implements InputProcessor {
     private OrthographicCamera camera;
 	private SpriteBatch batch;
     private Character character;
+    private Generation generation;
     private ArrayList<BackgroundObject> parallax = new ArrayList<BackgroundObject>();
 
 	@Override
@@ -42,8 +43,10 @@ public class Infearium extends ApplicationAdapter implements InputProcessor {
         character = new Character();
         character.setPosition(0, 0);
 
+        generation = new Generation();
 
-        Generation.generateMap(100, 50);
+        generation.generateMap(512, 512);
+
         parallax.add(new Sky(800, -200, 1));
         parallax.add(new Sky(0, -200, 1));
         parallax.add(new Sky(-800, -200, 1));
@@ -74,13 +77,13 @@ public class Infearium extends ApplicationAdapter implements InputProcessor {
         for (BackgroundObject object : parallax) {
             object.draw(batch);
         }
-        Generation.drawMap(batch);
-        character.draw(batch);
+
+        generation.drawMap(batch);
 
 		batch.end();
 
-        character.update(Gdx.graphics.getDeltaTime());
-        handleCollision();
+        //character.update(Gdx.graphics.getDeltaTime());
+        //handleCollision();
         handleFollowingCamera();
         handleMovement();
 	}
@@ -93,7 +96,7 @@ public class Infearium extends ApplicationAdapter implements InputProcessor {
     }
 
     private void handleCollision() {
-        for (BlockObject o : Generation.blocks) {
+        for (BlockObject o : generation.blocks) {
             switch (character.isColliding(o.getHitBox())) {
                 case 1:
                     character.action(1, 0, o.getHitBox().y + o.getHitBox().height);
@@ -154,10 +157,10 @@ public class Infearium extends ApplicationAdapter implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         System.out.println("Test");
-        for (BlockObject object : Generation.blocks) {
+        for (BlockObject object : generation.blocks) {
             if (character.distanceTo(object) < 5) {
                 if (object.getHitBox().contains(screenX, screenY)) {
-                    Generation.blocks.remove(object);
+                    generation.blocks.remove(object);
                     return true;
                 }
             }
