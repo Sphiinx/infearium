@@ -1,9 +1,6 @@
 package com.spxscripts.infearium;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
@@ -22,7 +19,7 @@ import com.spxscripts.world.Generation;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class Infearium extends ApplicationAdapter implements InputProcessor {
+public class Infearium extends ApplicationAdapter {
 
     private OrthographicCamera camera;
 	private SpriteBatch batch;
@@ -45,7 +42,7 @@ public class Infearium extends ApplicationAdapter implements InputProcessor {
 
         generation = new Generation();
 
-        generation.generateMap(512, 512);
+        generation.generateMap(512, 512, 16);
 
         parallax.add(new Sky(800, -200, 1));
         parallax.add(new Sky(0, -200, 1));
@@ -78,17 +75,18 @@ public class Infearium extends ApplicationAdapter implements InputProcessor {
             object.draw(batch);
         }
 
+        character.draw(batch);
+
         generation.drawMap(batch);
 
 		batch.end();
 
-        //character.update(Gdx.graphics.getDeltaTime());
-        //handleCollision();
+
+        character.update(Gdx.graphics.getDeltaTime());
+        handleCollision();
         handleFollowingCamera();
         handleMovement();
 	}
-
-
 
     private void handleFollowingCamera() {
         camera.position.set(character.getHitBox().x, character.getHitBox().y, 0);
@@ -97,26 +95,28 @@ public class Infearium extends ApplicationAdapter implements InputProcessor {
 
     private void handleCollision() {
         for (BlockObject o : generation.blocks) {
-            switch (character.isColliding(o.getHitBox())) {
-                case 1:
-                    character.action(1, 0, o.getHitBox().y + o.getHitBox().height);
-                    break;
-                case 2:
-                    float dist = character.getHitBox().getX() - (o.getHitBox().x + o.getHitBox().width + 1);
-                    character.action(2, o.getHitBox().x + o.getHitBox().width + 1, 0);
-                    for (BackgroundObject object : parallax) {
-                        object.action(0, dist, 0);
-                    }
-                    break;
-                case 3:
-                    float distance = character.getHitBox().getX() - (o.getHitBox().x - character.getHitBox().width - 1);
-                    character.action(3, o.getHitBox().x - character.getHitBox().width - 1, 0);
-                    for (BackgroundObject object : parallax) {
-                        object.action(0, distance, 0);
-                    }
-                    break;
-                case 4:
-                    character.action(4, 0, o.getHitBox().y - character.getHitBox().height);
+            if (o.getHitBox() != null) {
+                switch (character.isColliding(o.getHitBox())) {
+                    case 1:
+                        character.action(1, 0, o.getHitBox().y + o.getHitBox().height);
+                        break;
+                    case 2:
+                        float dist = character.getHitBox().getX() - (o.getHitBox().x + o.getHitBox().width + 1);
+                        character.action(2, o.getHitBox().x + o.getHitBox().width + 1, 0);
+                        for (BackgroundObject object : parallax) {
+                            object.action(0, dist, 0);
+                        }
+                        break;
+                    case 3:
+                        float distance = character.getHitBox().getX() - (o.getHitBox().x - character.getHitBox().width - 1);
+                        character.action(3, o.getHitBox().x - character.getHitBox().width - 1, 0);
+                        for (BackgroundObject object : parallax) {
+                            object.action(0, distance, 0);
+                        }
+                        break;
+                    case 4:
+                        character.action(4, 0, o.getHitBox().y - character.getHitBox().height);
+                }
             }
         }
     }
@@ -139,52 +139,4 @@ public class Infearium extends ApplicationAdapter implements InputProcessor {
         }
     }
 
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        System.out.println("Test");
-        for (BlockObject object : generation.blocks) {
-            if (character.distanceTo(object) < 5) {
-                if (object.getHitBox().contains(screenX, screenY)) {
-                    generation.blocks.remove(object);
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
-    }
 }

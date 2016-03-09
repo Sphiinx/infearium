@@ -24,7 +24,8 @@ public class Generation{
 
     }
 
-    public void generateMap(int worldSizeX, int worldSizeY) {
+    public void generateMap(int worldSizeX, int worldSizeY, int blockSize) {
+
         noiseGen = new SimplexNoise(seed);
         float hillCoeff = 8f;
         float terrainLimit = hillCoeff + (worldSizeY / 8);
@@ -38,16 +39,16 @@ public class Generation{
             int topOfDirt = actualHeight + (worldSizeY / 16);
             int endOfDirt = actualHeight + (worldSizeY / 8);
             for (int y = endOfDirt; y >= topOfDirt; y--) {
-                blocks.add(new Dirt(i, y));
+                blocks.add(new Dirt(i * blockSize, y * blockSize));
             }
-            blocks.add(new Grass(i, actualHeight + (worldSizeY / 16)));
+            blocks.add(new Grass(i * blockSize, actualHeight + (worldSizeY / 16) * blockSize));
 
             for (int y = endOfDirt; y < worldSizeY; y++) {
-                blocks.add(new Stone(i, y));
+                blocks.add(new Stone(i * blockSize, y * blockSize));
             }
 
             for (int y = caveStart - Math.round(4 * noise) - 6; y <caveStart + Math.round(3 * noise) + 3; y++) {
-                blocks.add(new Empty(i, y));
+                blocks.add(new Empty(i * blockSize, y * blockSize));
             }
         }
 
@@ -58,10 +59,10 @@ public class Generation{
                 float noise = (float) noiseGen.eval(x * 0.1f, y * 0.1f);
                 noise = (noise + 1) / 2f;
                 if (noise >= caveStartThreshold && noise <= caveEndThreshold) {
-                    blocks.add(new Empty(x, y));
+                    blocks.add(new Empty(x * blockSize, y * blockSize));
                 }
             }
-         }
+        }
 
     }
 

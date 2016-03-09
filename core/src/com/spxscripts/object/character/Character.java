@@ -94,10 +94,10 @@ public class Character extends CharacterObject {
     }
 
     public void jump() {
-        if (landed) {
+        //if (landed) {
             landed = false;
             velocityY = 5;
-        }
+        //}
 
     }
 
