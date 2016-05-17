@@ -1,4 +1,4 @@
-package com.spxscripts.util;
+package com.spxscripts.api.util;
 
 
 /**

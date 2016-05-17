@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.spxscripts.BlockObject;
+import com.spxscripts.data.Vars;
 
 /**
  * Created by Sphiinx on 3/7/2016.
@@ -17,8 +18,8 @@ public class Grass extends BlockObject{
     private int yPosition;
 
     public Grass(int x, int y) {
-        hitBox = new Rectangle(x, y, 16, 16);
-        sprite = new Sprite(TerrainManager.grass, 0, 0, 16, 16);
+        hitBox = new Rectangle(x, y, Vars.get().blockSize, Vars.get().blockSize);
+        sprite = new Sprite(TerrainManager.grass, 0, 0, Vars.get().blockSize, Vars.get().blockSize);
         setPosition(x, y);
     }
 

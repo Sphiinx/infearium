@@ -2,12 +2,15 @@ package com.spxscripts.world;
 
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.spxscripts.BackgroundObject;
 import com.spxscripts.BlockObject;
+import com.spxscripts.background.Parallax.Mountain1;
+import com.spxscripts.background.Parallax.Pine1;
+import com.spxscripts.background.Parallax.Sky;
 import com.spxscripts.object.terrain.Dirt;
-import com.spxscripts.object.terrain.Empty;
 import com.spxscripts.object.terrain.Grass;
 import com.spxscripts.object.terrain.Stone;
-import com.spxscripts.util.SimplexNoise;
+import com.spxscripts.api.util.SimplexNoise;
 
 import java.util.ArrayList;
 
@@ -17,6 +20,7 @@ import java.util.ArrayList;
 public class Generation{
 
     public ArrayList<BlockObject> blocks = new ArrayList<BlockObject>();
+    private ArrayList<BackgroundObject> parallax = new ArrayList<BackgroundObject>();
     public SimplexNoise noiseGen;
     public long seed = System.currentTimeMillis();
 
@@ -24,50 +28,53 @@ public class Generation{
 
     }
 
-    public void generateMap(int worldSizeX, int worldSizeY, int blockSize) {
-
+    public void generateBlocks(int leftGenerationStart, int worldSizeX, int worldSizeY, int blockSize) {
         noiseGen = new SimplexNoise(seed);
-        float hillCoeff = 8f;
-        float terrainLimit = hillCoeff + (worldSizeY / 8);
-        int dirtLimit = Math.round(hillCoeff + (worldSizeY / 8));
-        int caveStart = dirtLimit - (worldSizeY / 32);
 
-        for (int i = 0; i < worldSizeX; i++) {
-            float noise = (float) noiseGen.eval(i * 0.15f, -1 * 0.15f);
-            int actualHeight = Math.round(noise * hillCoeff);
-
-            int topOfDirt = actualHeight + (worldSizeY / 16);
-            int endOfDirt = actualHeight + (worldSizeY / 8);
-            for (int y = endOfDirt; y >= topOfDirt; y--) {
-                blocks.add(new Dirt(i * blockSize, y * blockSize));
-            }
-            blocks.add(new Grass(i * blockSize, actualHeight + (worldSizeY / 16) * blockSize));
-
-            for (int y = endOfDirt; y < worldSizeY; y++) {
-                blocks.add(new Stone(i * blockSize, y * blockSize));
-            }
-
-            for (int y = caveStart - Math.round(4 * noise) - 6; y <caveStart + Math.round(3 * noise) + 3; y++) {
-                blocks.add(new Empty(i * blockSize, y * blockSize));
-            }
-        }
-
-        float caveStartThreshold = 0.56f;
-        float caveEndThreshold = 0.825f;
-        for (int x = 0; x < worldSizeX; x++) {
-            for (int y = caveStart; y < worldSizeY; y++) {
-                float noise = (float) noiseGen.eval(x * 0.1f, y * 0.1f);
-                noise = (noise + 1) / 2f;
-                if (noise >= caveStartThreshold && noise <= caveEndThreshold) {
-                    blocks.add(new Empty(x * blockSize, y * blockSize));
+        for (int i = leftGenerationStart; i < worldSizeX + leftGenerationStart; i+= blockSize) {
+            for (int j = 0; j > worldSizeY; j-= blockSize) {
+                int noise = (int) noiseGen.eval(i * 0.15f, -1 * 0.15f);
+                System.out.println(noise);
+                if (j < -128) {
+                    blocks.add(new Stone(i, j));
+                } else if (j <= -16) {
+                    blocks.add(new Dirt(i, j));
+                } else {
+                    blocks.add(new Grass(i, j));
                 }
+
             }
         }
-
+        System.out.println("Blocks in game: " + blocks.size());
     }
 
-    public void drawMap(SpriteBatch batch){
+    public void generateParallax(int leftGenerationStart, int x, int y, int parallaxSize) {
+        for (int i = leftGenerationStart; i < x + leftGenerationStart; i+= parallaxSize) {
+            parallax.add(new Mountain1(i, y, 2));
+            parallax.add(new Pine1(i, y, 2));
+        }
+    }
+
+    public void generateSky(int leftGenerationStart, int x, int y, int parallaxSize) {
+        for (int i = leftGenerationStart; i < x + leftGenerationStart; i+= parallaxSize) {
+            parallax.add(new Sky(i, y, 1));
+        }
+    }
+
+    public void drawBlocks(SpriteBatch batch){
         for (BlockObject object : blocks) {
+            object.draw(batch);
+        }
+    }
+
+    public void drawParallax(SpriteBatch batch){
+        for (BackgroundObject object : parallax) {
+            object.draw(batch);
+        }
+    }
+
+    public void drawSky(SpriteBatch batch){
+        for (BackgroundObject object : parallax) {
             object.draw(batch);
         }
     }

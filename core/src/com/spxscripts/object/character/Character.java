@@ -69,7 +69,7 @@ public class Character extends CharacterObject {
     }
 
     public void update(float delta) {
-        velocityY -= 10 * delta;
+        velocityY -= 15 * delta;
         bottom.y += velocityY;
         setPosition(bottom.x, bottom.y);
     }
@@ -94,10 +94,10 @@ public class Character extends CharacterObject {
     }
 
     public void jump() {
-        //if (landed) {
+        if (landed) {
             landed = false;
-            velocityY = 5;
-        //}
+            velocityY = 6;
+        }
 
     }
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.spxscripts.BlockObject;
+import com.spxscripts.data.Vars;
 
 /**
  * Created by Sphiinx on 3/4/2016.
@@ -16,8 +17,8 @@ public class Dirt extends BlockObject {
     private int yPosition;
 
     public Dirt(int x, int y) {
-        hitBox = new Rectangle(x, y, 16, 16);
-        sprite = new Sprite(TerrainManager.dirt, 0, 0, 16, 16);
+        hitBox = new Rectangle(x, y, Vars.get().blockSize, Vars.get().blockSize);
+        sprite = new Sprite(TerrainManager.dirt, 0, 0, Vars.get().blockSize, Vars.get().blockSize);
         setPosition(x, y);
     }
 
