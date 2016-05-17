@@ -12,7 +12,6 @@ public class DesktopLauncher {
 		config.useGL30 = false;
 		config.width = 1920;
 		config.height = 1080;
-
 		new LwjglApplication(new Infearium(), config);
 	}
 }

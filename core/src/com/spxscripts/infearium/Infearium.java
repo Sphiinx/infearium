@@ -18,7 +18,7 @@ public class Infearium extends ApplicationAdapter {
 
     private OrthographicCamera camera;
     private SpriteBatch batch;
-    private Character character;
+    public static Character character;
     private Generation generation;
 
 
