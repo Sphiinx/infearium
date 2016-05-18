@@ -18,7 +18,7 @@ public class Vars {
     public int leftGenerationStart = -4000;
     public int worldSizeX = 8000;
     public int worldSizeY = -8000;
-    public int blockSize = 16;
+    public int blockSize = 32;
 
 }
 

@@ -41,7 +41,6 @@ public class Infearium extends ApplicationAdapter {
         generation.generateBlocks(Vars.get().leftGenerationStart, Vars.get().worldSizeX, Vars.get().worldSizeY, Vars.get().blockSize);
         generation.generateSky(Vars.get().leftGenerationStart, Vars.get().worldSizeX, -200, 1024);
         generation.generateParallax(Vars.get().leftGenerationStart, Vars.get().worldSizeX, -400, 2048);
-
     }
 
     @Override

@@ -32,6 +32,19 @@ public class Generation {
 
     }
 
+    public float[][] generateSimplexNoise(int leftGenerationStart, int worldSizeX, int worldSizeY, int blockSize) {
+        float[][] simplexnoise = new float[worldSizeX][worldSizeY];
+        float frequency = 5.0f / (float) worldSizeX;
+
+        for (int i = leftGenerationStart; i < worldSizeX + leftGenerationStart; i += blockSize) {
+            for (int j = 0; j > worldSizeY; j -= blockSize) {
+                simplexnoise[i][j] = (float) noiseGen.eval(i * frequency, j * frequency);
+                simplexnoise[i][j] = (simplexnoise[i][j] + 1) / 2; // Generates a value between 0 and 1
+            }
+        }
+        return simplexnoise;
+    }
+
     public void generateBlocks(int leftGenerationStart, int worldSizeX, int worldSizeY, int blockSize) {
         noiseGen = new SimplexNoise(seed);
 
