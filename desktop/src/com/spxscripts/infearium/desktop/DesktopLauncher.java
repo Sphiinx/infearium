@@ -14,4 +14,5 @@ public class DesktopLauncher {
 		config.height = 1080;
 		new LwjglApplication(new Infearium(), config);
 	}
+
 }

@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.spxscripts.BackgroundObject;
 import com.spxscripts.BlockObject;
-import com.spxscripts.background.Parallax.Mountain1;
+import com.spxscripts.background.Parallax.mountain1;
 import com.spxscripts.background.Parallax.Pine1;
 import com.spxscripts.background.Parallax.Sky;
 import com.spxscripts.infearium.Infearium;
@@ -20,6 +20,8 @@ import java.util.ArrayList;
  * Created by Sphiinx on 3/5/2016.
  */
 public class Generation {
+
+    private final double DISTANCE_TO_CORNER = (Math.sqrt(Math.pow(Gdx.graphics.getWidth() / 2.0, 2) + Math.pow(Gdx.graphics.getHeight() / 2.0, 2)));
 
     public ArrayList<BlockObject> blocks = new ArrayList<BlockObject>();
     private ArrayList<BackgroundObject> parallax = new ArrayList<BackgroundObject>();
@@ -52,7 +54,7 @@ public class Generation {
 
     public void generateParallax(int leftGenerationStart, int x, int y, int parallaxSize) {
         for (int i = leftGenerationStart; i < x + leftGenerationStart; i += parallaxSize) {
-            parallax.add(new Mountain1(i, y, 2));
+            parallax.add(new mountain1(i, y, 2));
             parallax.add(new Pine1(i, y, 2));
         }
     }
@@ -66,12 +68,14 @@ public class Generation {
     public void drawBlocks(SpriteBatch batch) {
         int count = 0;
         for (BlockObject object : blocks) {
-            if (Math.abs(Infearium.character.distanceTo(object)) <= Gdx.graphics.getWidth() && Math.abs(Infearium.character.distanceTo(object)) <= Gdx.graphics.getHeight()) {
+            final double DISTANCE = Infearium.character.distanceTo(object.getX(), object.getY());
+            //System.out.println("Distance: " + DISTANCE);
+            if (DISTANCE <= DISTANCE_TO_CORNER /*&& DISTANCE <= Gdx.graphics.getHeight() / 2*/) {
                 object.draw(batch);
                 count++;
             }
         }
-        System.out.println(count);
+        System.out.println("Block count: " + count);
     }
 
     public void drawParallax(SpriteBatch batch) {

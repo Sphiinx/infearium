@@ -9,11 +9,11 @@ import com.spxscripts.background.BackgroundManager;
 /**
  * Created by Sphiinx on 3/6/2016.
  */
-public class Mountain1 extends BackgroundObject {
+public class mountain1 extends BackgroundObject {
 
     private Sprite sprite;
 
-    public Mountain1(float x, float y, float size) {
+    public mountain1(float x, float y, float size) {
         sprite = new Sprite(BackgroundManager.mountain1, 0, 0, 1024, 1024);
         sprite.setSize(1024 * size, 1024 * size);
         setPosition(x, y);

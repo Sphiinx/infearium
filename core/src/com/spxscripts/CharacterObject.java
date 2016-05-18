@@ -11,10 +11,12 @@ public abstract class CharacterObject {
     public abstract int isColliding(Rectangle r);
     public abstract int getVelocityX();
     public abstract float getVelocityY();
-    public abstract float distanceTo(BlockObject object);
+    public abstract double distanceTo(float x2, float y2);
     public abstract void action(int type, float x, float y);
     public abstract void update(float delta);
     public abstract void setPosition(float x, float y);
+    public abstract float getX();
+    public abstract float getY();
     public abstract void moveLeft(float delta, int speed);
     public abstract void moveRight(float delta, int speed);
     public abstract void draw(SpriteBatch batch);

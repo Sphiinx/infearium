@@ -13,6 +13,8 @@ public abstract class BlockObject {
     public abstract void action(int type, float x, float y);
     public abstract void update(float delta);
     public abstract void setPosition(float x, float y);
+    public abstract float getX();
+    public abstract float getY();
     public abstract void draw(SpriteBatch batch);
     public abstract int hitAction(int side);
     public abstract Rectangle getHitBox();

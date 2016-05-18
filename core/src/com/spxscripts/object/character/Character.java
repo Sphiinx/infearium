@@ -48,8 +48,8 @@ public class Character extends CharacterObject {
     }
 
     @Override
-    public float distanceTo(BlockObject object) {
-        return object.getHitBox().getX() - getHitBox().getX();
+    public double distanceTo(float x2, float y2) {
+        return Math.sqrt(Math.pow((x2 - getX()), 2) + Math.pow((y2 - getY()), 2));
     }
 
     @Override
@@ -91,6 +91,16 @@ public class Character extends CharacterObject {
         top.y = y + 56;
 
         sprite.setPosition(x, y);
+    }
+
+    @Override
+    public float getX() {
+        return getHitBox().getX();
+    }
+
+    @Override
+    public float getY() {
+        return getHitBox().getY();
     }
 
     public void jump() {

@@ -46,6 +46,16 @@ public class Grass extends BlockObject{
     }
 
     @Override
+    public float getX() {
+        return hitBox.x;
+    }
+
+    @Override
+    public float getY() {
+        return hitBox.y;
+    }
+
+    @Override
     public void draw(SpriteBatch batch) {
         sprite.draw(batch);
     }
